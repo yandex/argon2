@@ -1,0 +1,12 @@
+cmake-build-debug/
+cmake-build-release/
+.idea/
+*.o
+fuzzing/phc-winner-argon2/
+aflbuild/
+fuzzing/phc-winner-argon/
+fuzzing/fuzz
+fuzzing/fuzz.txt
+ubuntu/
+.DS_Store
+build/
