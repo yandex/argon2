@@ -1,7 +1,7 @@
 Argonishche
 ===========
 
-[![Build Status](https://travis-ci.org/yandex/argon2.svg?branch=master)](https://travis-ci.org/luc-lynx/argon2)
+[![Build Status](https://travis-ci.org/yandex/argon2.svg?branch=master)](https://travis-ci.org/yandex/argon2)
 
 # Overview
 
