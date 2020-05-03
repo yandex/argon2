@@ -1,17 +1,22 @@
 #include "cpuid.h"
 
+#if defined(_MSC_VER)
+#include <immintrin.h>
+#include <intrin.h>
+#endif  // defined(_MSC_VER)
+
 namespace cpuid {
 
     /*
      * Taken from
      * https://software.intel.com/sites/default/files/article/405250/how-to-detect-new-instruction-support-in-the-4th-generation-intel-core-processor-family.pdf
      */
-    static void run_cpuid(uint32_t eax, uint32_t ecx, uint32_t* abcd)
+    static void run_cpuid(int eax, int ecx, int* abcd)
     {
 #if defined(_MSC_VER)
         __cpuidex(abcd, eax, ecx);
 #else
-        uint32_t ebx = 0, edx = 0;
+        int ebx = 0, edx = 0;
 # if defined( __i386__ ) && defined ( __PIC__ )
         /* in case of PIC under 32-bit EBX cannot be clobbered */
          __asm__ ( "movl %%ebx, %%edi \n\t cpuid \n\t xchgl %%ebx, %%edi" : "=D" (ebx),
@@ -25,32 +30,32 @@ namespace cpuid {
 
     static int check_xcr0_ymm()
     {
-        uint32_t xcr0;
+        int xcr0;
 #if defined(_MSC_VER)
-        xcr0 = (uint32_t)_xgetbv(0); /* min VS2010 SP1 compiler is required */
+        xcr0 = (int)_xgetbv(0); /* min VS2010 SP1 compiler is required */
 #else
         __asm__ ("xgetbv" : "=a" (xcr0) : "c" (0) : "%edx" );
 #endif
         return ((xcr0 & 6) == 6); /* checking if xmm and ymm state are enabled in XCR0 */
     }
 
-    CpuId::CpuId(uint32_t eax) {
+    CpuId::CpuId(int eax) {
         run_cpuid(eax, 0, regs);
     }
 
-    const uint32_t& CpuId::EAX() const {
+    const int& CpuId::EAX() const {
         return regs[0];
     }
 
-    const uint32_t& CpuId::EBX() const {
+    const int& CpuId::EBX() const {
         return regs[1];
     }
 
-    const uint32_t& CpuId::ECX() const {
+    const int& CpuId::ECX() const {
         return regs[2];
     }
 
-    const uint32_t& CpuId::EDX() const {
+    const int& CpuId::EDX() const {
         return regs[3];
     }
 
