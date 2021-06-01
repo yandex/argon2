@@ -149,7 +149,7 @@ namespace argonishche {
         }
 
         static void blake2b_long__(uint8_t* out, uint32_t outlen, const uint8_t* in, uint32_t inlen) {
-            if(outlen < BLAKE2B_OUTBYTES) {
+            if(outlen <= BLAKE2B_OUTBYTES) {
                 Blake2B<instructionSet> hash(outlen);
                 hash.Update(outlen);
                 hash.Update(in, inlen);
